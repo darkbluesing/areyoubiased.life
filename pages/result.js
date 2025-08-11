@@ -110,19 +110,74 @@ export default function Result() {
     setIsSharing(true);
     
     try {
-      const canvas = await html2canvas(wrapRef.current, {
+      const element = wrapRef.current;
+      const actionSection = element.querySelector('.action-section');
+      
+      // 캡처 전에 임시로 버튼 섹션 숨기기
+      if (actionSection) {
+        actionSection.style.display = 'none';
+      }
+      
+      // 모바일 최적화 스타일 임시 적용
+      const originalStyles = {
+        width: element.style.width,
+        maxWidth: element.style.maxWidth,
+        padding: element.style.padding,
+        fontSize: element.style.fontSize,
+        background: element.style.background
+      };
+      
+      // 모바일 캡처용 스타일 적용
+      element.style.width = '375px';
+      element.style.maxWidth = '375px';
+      element.style.padding = '20px';
+      element.style.fontSize = '14px';
+      element.style.background = 'white';
+      element.style.boxSizing = 'border-box';
+      
+      // 잠시 대기하여 스타일 적용 완료
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const canvas = await html2canvas(element, {
         useCORS: true,
-        scale: 2,
-        backgroundColor: '#ffffff'
+        allowTaint: true,
+        scale: 2.5,
+        backgroundColor: '#ffffff',
+        width: 375,
+        height: element.scrollHeight,
+        logging: false,
+        imageTimeout: 15000,
+        removeContainer: true,
+        scrollX: 0,
+        scrollY: 0,
+        x: 0,
+        y: 0
       });
       
-      const data = canvas.toDataURL('image/png');
+      // 원본 스타일 복원
+      Object.keys(originalStyles).forEach(key => {
+        if (originalStyles[key]) {
+          element.style[key] = originalStyles[key];
+        } else {
+          element.style.removeProperty(key);
+        }
+      });
+      
+      // 버튼 섹션 다시 표시
+      if (actionSection) {
+        actionSection.style.display = '';
+      }
+      
+      const data = canvas.toDataURL('image/png', 1.0);
       const a = document.createElement('a');
       a.href = data;
       a.download = `bias-test-result-${numericScore}.png`;
+      document.body.appendChild(a);
       a.click();
+      document.body.removeChild(a);
     } catch (error) {
       console.error('이미지 다운로드 실패:', error);
+      alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
     } finally {
       setIsSharing(false);
     }

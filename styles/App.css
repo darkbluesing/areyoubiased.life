@@ -174,4 +174,98 @@ body.dark .option-card.enhanced:hover {
   box-shadow: 0 8px 25px rgba(167, 139, 250, 0.15);
 }
 
-body.dark .option-card.enhanced.
+body.dark .option-card.enhanced.selected {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.2) 0%, rgba(108, 99, 255, 0.1) 100%);
+  border-color: #a78bfa;
+  box-shadow: 0 8px 25px rgba(167, 139, 250, 0.2);
+}
+
+body.dark .option-radio.enhanced {
+  border-color: #6b7280;
+  background: #374151;
+}
+
+body.dark .option-card.enhanced:hover .option-radio.enhanced {
+  border-color: #a78bfa;
+}
+
+body.dark .option-card.enhanced.selected .option-radio.enhanced {
+  background: #a78bfa;
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.2);
+}
+
+body.dark .option-radio-dot.selected {
+  background: #a78bfa;
+}
+
+body.dark .question-help {
+  background: rgba(45, 45, 45, 0.8);
+  color: #9ca3af;
+  border-left-color: #a78bfa;
+}
+
+body.dark .option-ripple {
+  background: rgba(167, 139, 250, 0.2);
+}
+
+/* 접근성 개선 */
+@media (prefers-reduced-motion: reduce) {
+  .question-container,
+  .option-card.enhanced,
+  .option-radio.enhanced,
+  .option-radio-dot,
+  .option-ripple {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* 고대비 모드 지원 */
+@media (prefers-contrast: high) {
+  .option-card.enhanced {
+    border-width: 3px;
+  }
+  
+  .option-card.enhanced.selected {
+    border-width: 4px;
+  }
+}
+
+/* 터치 디바이스 최적화 */
+@media (hover: none) and (pointer: coarse) {
+  .option-card.enhanced {
+    min-height: 64px;
+    padding: 24px 20px;
+  }
+  
+  .option-card.enhanced:hover {
+    transform: none;
+  }
+  
+  .option-card.enhanced:active {
+    transform: scale(0.98);
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 600px) {
+  .question.enhanced {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding: 0 8px;
+  }
+  
+  .option-card.enhanced {
+    padding: 16px;
+    font-size: 1rem;
+    min-height: 56px;
+    gap: 12px;
+  }
+  
+  .question-help {
+    font-size: 0.85rem;
+    margin-top: 12px;
+    padding: 10px 12px;
+  }
+}

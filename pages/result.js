@@ -116,11 +116,18 @@ export default function Result() {
       element.classList.add('capture-mode');
       
       // DOM 리플로우를 위한 충분한 대기 시간
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-      // 실제 높이 계산 (여백 포함)
-      const rect = element.getBoundingClientRect();
-      const actualHeight = element.scrollHeight;
+      // 정확한 높이 계산을 위해 모든 자식 요소의 높이 합산
+      let totalHeight = 0;
+      const children = element.children;
+      for (let i = 0; i < children.length; i++) {
+        const childRect = children[i].getBoundingClientRect();
+        totalHeight += childRect.height;
+      }
+      
+      // 패딩과 여분의 여백 추가
+      const finalHeight = Math.max(element.scrollHeight, totalHeight) + 80;
       
       const canvas = await html2canvas(element, {
         useCORS: true,
@@ -128,28 +135,25 @@ export default function Result() {
         scale: 2,
         backgroundColor: '#ffffff',
         width: 375,
-        height: actualHeight + 40, // 여분의 여백 추가
+        height: finalHeight,
         logging: false,
-        imageTimeout: 15000,
+        imageTimeout: 20000,
         removeContainer: true,
         scrollX: 0,
         scrollY: 0,
         x: 0,
         y: 0,
         onclone: (clonedDoc) => {
-          // 클론된 문서의 모든 요소에 텍스트 줄바꿈 설정
+          // 클론된 문서에서 캡처 모드 스타일 적용
           const clonedElement = clonedDoc.querySelector('.result-page');
           if (clonedElement) {
             clonedElement.classList.add('capture-mode');
             
-            // 모든 텍스트 요소에 줄바꿈 설정
-            const textElements = clonedElement.querySelectorAll('*');
-            textElements.forEach(el => {
-              el.style.wordWrap = 'break-word';
-              el.style.whiteSpace = 'normal';
-              el.style.wordBreak = 'keep-all';
-              el.style.lineHeight = '1.5';
-            });
+            // 하단 여백 추가를 위한 div 생성
+            const bottomPadding = clonedDoc.createElement('div');
+            bottomPadding.style.height = '40px';
+            bottomPadding.style.width = '100%';
+            clonedElement.appendChild(bottomPadding);
           }
         }
       });

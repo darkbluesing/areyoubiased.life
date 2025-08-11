@@ -1850,71 +1850,82 @@ body.dark .restart-btn.modern {
 }
 
 /* 이미지 캡처 최적화 스타일 */
-@media (max-width: 400px) {
-  .result-page.enhanced {
-    width: 375px !important;
-    max-width: 375px !important;
-    padding: 20px !important;
-    margin: 0 auto !important;
-    box-sizing: border-box !important;
-    font-size: 14px !important;
-    background: white !important;
-  }
-  
-  .result-header {
-    margin-bottom: 30px !important;
-  }
-  
-  .result-title {
-    font-size: 1.5rem !important;
-    line-height: 1.3 !important;
-    margin-bottom: 8px !important;
-  }
-  
-  .result-subtitle {
-    font-size: 0.9rem !important;
-    line-height: 1.4 !important;
-  }
-  
-  .score-section {
-    margin-bottom: 40px !important;
-  }
-  
-  .score-circle.enhanced {
-    width: 140px !important;
-    height: 140px !important;
-    margin: 0 auto 20px !important;
-  }
-  
-  .score-inner {
-    width: 100px !important;
-    height: 100px !important;
-  }
-  
-  .score-number {
-    font-size: 1.8rem !important;
-  }
-  
-  .solutions-section {
-    margin-bottom: 30px !important;
-  }
-  
-  .section-title {
-    font-size: 1.2rem !important;
-    margin-bottom: 20px !important;
-  }
-  
-  .solution-card {
-    padding: 16px !important;
-    margin-bottom: 12px !important;
-  }
-  
-  .info-section {
-    margin-bottom: 20px !important;
-  }
-  
-  /* 캡처에서 제외할 버튼 섹션 숨김 */
-  .action-section {
-    display: none !important;
-  }
+.result-page.enhanced {
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  overflow: visible !important;
+}
+
+.result-page.enhanced * {
+  word-wrap: break-word !important;
+  white-space: normal !important;
+  box-sizing: border-box !important;
+}
+
+.result-page.enhanced .result-title {
+  word-break: keep-all !important;
+  line-height: 1.4 !important;
+  margin-bottom: 12px !important;
+}
+
+.result-page.enhanced .result-subtitle {
+  word-break: keep-all !important;
+  line-height: 1.5 !important;
+  margin-bottom: 16px !important;
+}
+
+.result-page.enhanced .solution-text {
+  word-break: keep-all !important;
+  line-height: 1.5 !important;
+  white-space: normal !important;
+}
+
+.result-page.enhanced .info-card p {
+  word-break: keep-all !important;
+  line-height: 1.6 !important;
+  white-space: normal !important;
+}
+
+/* 캡처 전용 스타일 - JavaScript에서 동적으로 적용될 때만 */
+.result-page.capture-mode {
+  width: 375px !important;
+  max-width: 375px !important;
+  min-width: 375px !important;
+  padding: 20px !important;
+  margin: 0 !important;
+  background: white !important;
+  position: relative !important;
+  overflow: visible !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.result-page.capture-mode .action-section {
+  display: none !important;
+}
+
+.result-page.capture-mode .result-header {
+  margin-bottom: 24px !important;
+}
+
+.result-page.capture-mode .score-section {
+  margin-bottom: 32px !important;
+}
+
+.result-page.capture-mode .solutions-section {
+  margin-bottom: 24px !important;
+}
+
+.result-page.capture-mode .info-section {
+  margin-bottom: 16px !important;
+}
+
+.result-page.capture-mode .solution-card {
+  margin-bottom: 8px !important;
+  padding: 14px !important;
+}
+
+.result-page.capture-mode .solution-text {
+  font-size: 13px !important;
+  line-height: 1.5 !important;
 }

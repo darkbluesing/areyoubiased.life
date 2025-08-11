@@ -111,62 +111,51 @@ export default function Result() {
     
     try {
       const element = wrapRef.current;
-      const actionSection = element.querySelector('.action-section');
       
-      // 캡처 전에 임시로 버튼 섹션 숨기기
-      if (actionSection) {
-        actionSection.style.display = 'none';
-      }
+      // 캡처 모드 클래스 추가
+      element.classList.add('capture-mode');
       
-      // 모바일 최적화 스타일 임시 적용
-      const originalStyles = {
-        width: element.style.width,
-        maxWidth: element.style.maxWidth,
-        padding: element.style.padding,
-        fontSize: element.style.fontSize,
-        background: element.style.background
-      };
+      // DOM 리플로우를 위한 충분한 대기 시간
+      await new Promise(resolve => setTimeout(resolve, 300));
       
-      // 모바일 캡처용 스타일 적용
-      element.style.width = '375px';
-      element.style.maxWidth = '375px';
-      element.style.padding = '20px';
-      element.style.fontSize = '14px';
-      element.style.background = 'white';
-      element.style.boxSizing = 'border-box';
-      
-      // 잠시 대기하여 스타일 적용 완료
-      await new Promise(resolve => setTimeout(resolve, 100));
+      // 실제 높이 계산 (여백 포함)
+      const rect = element.getBoundingClientRect();
+      const actualHeight = element.scrollHeight;
       
       const canvas = await html2canvas(element, {
         useCORS: true,
         allowTaint: true,
-        scale: 2.5,
+        scale: 2,
         backgroundColor: '#ffffff',
         width: 375,
-        height: element.scrollHeight,
+        height: actualHeight + 40, // 여분의 여백 추가
         logging: false,
         imageTimeout: 15000,
         removeContainer: true,
         scrollX: 0,
         scrollY: 0,
         x: 0,
-        y: 0
-      });
-      
-      // 원본 스타일 복원
-      Object.keys(originalStyles).forEach(key => {
-        if (originalStyles[key]) {
-          element.style[key] = originalStyles[key];
-        } else {
-          element.style.removeProperty(key);
+        y: 0,
+        onclone: (clonedDoc) => {
+          // 클론된 문서의 모든 요소에 텍스트 줄바꿈 설정
+          const clonedElement = clonedDoc.querySelector('.result-page');
+          if (clonedElement) {
+            clonedElement.classList.add('capture-mode');
+            
+            // 모든 텍스트 요소에 줄바꿈 설정
+            const textElements = clonedElement.querySelectorAll('*');
+            textElements.forEach(el => {
+              el.style.wordWrap = 'break-word';
+              el.style.whiteSpace = 'normal';
+              el.style.wordBreak = 'keep-all';
+              el.style.lineHeight = '1.5';
+            });
+          }
         }
       });
       
-      // 버튼 섹션 다시 표시
-      if (actionSection) {
-        actionSection.style.display = '';
-      }
+      // 캡처 모드 클래스 제거
+      element.classList.remove('capture-mode');
       
       const data = canvas.toDataURL('image/png', 1.0);
       const a = document.createElement('a');
@@ -178,6 +167,11 @@ export default function Result() {
     } catch (error) {
       console.error('이미지 다운로드 실패:', error);
       alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+      
+      // 에러 발생 시에도 클래스 정리
+      if (wrapRef.current) {
+        wrapRef.current.classList.remove('capture-mode');
+      }
     } finally {
       setIsSharing(false);
     }

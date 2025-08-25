@@ -74,7 +74,7 @@ export default function Quiz() {
   return (
     <div className="container">
       <section className="section section-top">
-        <h1>테스트</h1>
+        <h1 style={{fontWeight: 'bold'}}>www.areyoubiased.life</h1>
       </section>
 
       <section className="section section-mid">

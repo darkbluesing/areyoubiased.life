@@ -1,3 +1,15 @@
 {
-  "title": "My Bias Test"
+  "title": "My Bias Test",
+  "result": {
+    "title": "My Bias Index",
+    "biasIndex": "Bias Index", 
+    "rangeText": "Range",
+    "scaleLabels": {
+      "veryOpen": "Very Open",
+      "friendly": "Friendly",
+      "average": "Average", 
+      "caution": "Caution Required",
+      "needImprovement": "Need Improvement"
+    }
+  }
 }

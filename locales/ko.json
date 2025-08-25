@@ -1,3 +1,15 @@
 {
-  "title": "나의 인종차별적 성향 테스트"
+  "title": "나의 인종차별적 성향 테스트",
+  "result": {
+    "title": "나의 편견 지수",
+    "biasIndex": "편견 지수",
+    "rangeText": "범위",
+    "scaleLabels": {
+      "veryOpen": "매우 개방적",
+      "friendly": "우호적", 
+      "average": "보통",
+      "caution": "주의 필요",
+      "needImprovement": "개선 필요"
+    }
+  }
 }

@@ -186,7 +186,7 @@ export default function Result() {
       try {
         await navigator.share({
           title: '나의 인종차별적 성향 테스트 결과',
-          text: `나의 편견 지수는 ${numericScore}%입니다. 당신도 테스트해보세요!`,
+          text: `나의 편견 지수는 ${numericScore}%입니다. 테스트해보세요!`,
           url: window.location.origin
         });
       } catch (error) {
@@ -203,18 +203,23 @@ export default function Result() {
   return (
     <div className="container">
       <div className={`result-page enhanced ${isVisible ? 'visible' : ''}`} ref={wrapRef}>
+        {/* 로고 섹션 */}
+        <div className="page-logo">
+          <span style={{fontWeight: 'bold', fontSize: '1.2rem', color: '#333'}}>www.areyoubiased.life</span>
+        </div>
+        
         {/* 헤더 섹션 */}
         <div className="result-header">
           <div className="result-badge">
             <span className="badge-icon">📊</span>
             <span className="badge-text">테스트 완료</span>
           </div>
-          <h1 className="result-title">당신의 무의식적 편견 지수</h1>
+          <h1 className="result-title">나의 편견 지수</h1>
           <p className="result-subtitle">{resultData.description}</p>
         </div>
 
-        {/* 점수 시각화 섹션 */}
-        <div className="score-section">
+        {/* 통합 결과 섹션 */}
+        <div className="main-result-section">
           <div className="score-visualization">
             <div 
               className="score-circle enhanced"
@@ -224,7 +229,6 @@ export default function Result() {
             >
               <div className="score-inner">
                 <div className="score-number">{animatedScore}%</div>
-                <div className="score-label">편견 지수</div>
               </div>
             </div>
             
@@ -267,10 +271,8 @@ export default function Result() {
               />
             </div>
           </div>
-        </div>
 
-        {/* 개선 방법 섹션 */}
-        <div className="solutions-section">
+          {/* 개선 방법 */}
           <h2 className="section-title">
             <span className="title-icon">💡</span>
             맞춤 개선 방법
@@ -287,10 +289,8 @@ export default function Result() {
               </div>
             ))}
           </div>
-        </div>
 
-        {/* 추가 정보 섹션 */}
-        <div className="info-section">
+          {/* 추가 정보 */}
           <div className="info-card">
             <h3>💭 이 테스트에 대해</h3>
             <p>
